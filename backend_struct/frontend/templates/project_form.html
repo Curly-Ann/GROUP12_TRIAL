@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+<!-- This template uses the base.html layout -->
+
+{% block title %}Create Project{% endblock %}
+<!-- Page title that shows in the browser tab -->
+
+{% block content %}
+<div class="project-form-container">
+    <h2>Create New Project</h2>
+    
+    <!-- Show an error message if something went wrong -->
+    {% if error %}
+    <div class="error-message">
+        {{ error }}
+    </div>
+    {% endif %}
+    
+    <!-- Show a success message if project was created successfully -->
+    {% if success %}
+    <div class="success-message">
+        {{ success }}
+    </div>
+    {% endif %}
+    
+    <!-- Project creation form -->
+    <form method="POST" action="{% url 'create_project' %}" class="project-form">
+        {% csrf_token %}
+        <!-- CSRF token for security (required for POST forms in Django) -->
+        
+        <!-- Project name input field -->
+        <div class="form-group">
+            <label for="name">Project Name *</label>
+            <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                required 
+                placeholder="Enter project name"
+                value="{{ form_data.name|default:'' }}"
+                <!-- Keeps the previous input if form reloads after an error -->
+            >
+        </div>
+        
+        <!-- Project description textarea -->
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea 
+                id="description" 
+                name="description" 
+                rows="4" 
+                placeholder="Enter project description"
+            >{{ form_data.description|default:'' }}</textarea>
+            <!-- Keeps the previous description text if there was an error -->
+        </div>
+        
+        <!-- Submit and cancel buttons -->
+        <button type="submit" class="btn-primary">Create Project</button>
+        <!-- Submits the form to create a new project -->
+        
+        <a href="{% url 'projects_list' %}" class="btn-secondary">Cancel</a>
+        <!-- Goes back to the project list page -->
+    </form>
+</div>
+{% endblock %}
