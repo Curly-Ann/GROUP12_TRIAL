@@ -45,7 +45,11 @@ INSTALLED_APPS = [
     'frontend'
 =======
     'backend_struct',
+<<<<<<< HEAD
 >>>>>>> 738cdfa6fa215662c0a4515d8f2c1f11532b77a7
+=======
+    'accounts'
+>>>>>>> 2e54c5006932da36cdb57b40fbd986d8a0691c94
 ]
 
 
@@ -130,9 +134,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 import os
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'accounts/static')]
 
-TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'templates')]
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'accounts/templates')],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
