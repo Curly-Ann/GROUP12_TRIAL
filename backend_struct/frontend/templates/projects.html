@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}My Projects{% endblock %}
+
+{% block content %}
+<div class="projects-container">
+    <div class="projects-header">
+        <h2>My Projects</h2>
+        <a href="{% url 'create_project' %}" class="btn-primary">+ New Project</a>
+    </div>
+    
+    <!-- Show empty state if no projects -->
+    {% if not projects %}
+    <div class="empty-state">
+        <p>No projects yet. Create your first project!</p>
+    </div>
+    {% else %}
+    
+    <!-- Projects grid -->
+    <div class="projects-grid">
+        {% for project in projects %}
+        <div class="project-card">
+            <!-- Project header -->
+            <div class="project-header">
+                <h3>{{ project.name }}</h3>
+                <span class="project-date">
+                    {{ project.created_at|date:"M d, Y" }}
+                </span>
+            </div>
+            
+            <!-- Project description -->
+            <p class="project-description">
+                {{ project.description|default:"No description" }}
+            </p>
+            
+            <!-- Tasks section -->
+            <div class="project-tasks">
+                <h4>Tasks ({{ project.tasks|length }})</h4>
+                
+                {% if not project.tasks %}
+                <p class="no-tasks">No tasks in this project</p>
+                {% else %}
+                <ul class="task-list">
+                    {% for task in project.tasks %}
+                    <li class="task-item">
+                        <strong>{{ task.title }}</strong>
+                        <span class="task-description">{{ task.description }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
